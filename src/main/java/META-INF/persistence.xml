@@ -11,9 +11,9 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     <properties>
         <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
  
-        <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/Cities" /> <!-- !!! -->
-        <property name="javax.persistence.jdbc.user" value="postgres" /> <!-- !!! --> 
-        <property name="javax.persistence.jdbc.password" value="admin" /> <!-- !!! -->
+        <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/postgres" /> <!-- !!! -->
+        <property name="javax.persistence.jdbc.user" value="****" /> <!-- !!! --> 
+        <property name="javax.persistence.jdbc.password" value="****" /> <!-- !!! -->
         
         <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/> <!-- DB Dialect -->
         <property name="hibernate.hbm2ddl.auto" value="update" /> <!-- create / create-drop / update -->    
