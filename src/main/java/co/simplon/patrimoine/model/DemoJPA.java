@@ -57,8 +57,8 @@ public class DemoJPA implements AutoCloseable {
 	
 	public Monument createMonument() {
 		EntityManager em= factory.createEntityManager();
-		//Monument monument= new Monument("Pont romain", em.find(City.class, 1L));
-		Monument monument= new Monument("Pont romain");
+		City city1= em.find(City.class, 5L);
+		Monument monument= new Monument("Pont romain", city1);
 		monument= create(em, monument);
 		em.close();
 		return monument;
@@ -74,18 +74,28 @@ public class DemoJPA implements AutoCloseable {
 	
 	public City readCity() {
 	    EntityManager em= factory.createEntityManager();
-	    City city= read(em, 3L);
+	    //City city= read(em, 5L);
+	    City city= em.find(City.class, 5L);
 	    em.close();
 	    return city;
 	}
 	
+	/*
 	public City read(EntityManager em, Long id) {
 	    return em.find(City.class, id);
 	}
+	*/
+	
+	public Monument readMonument() {
+	    EntityManager em= factory.createEntityManager();
+	    Monument monument= em.find(Monument.class, 5L);
+	    em.close();
+	    return monument;
+	}	
 	
 	public City updateCity() {
 	    //return update(new City(4L,"PaRiS", -1., -2., null));
-		return update(new City(4L,"PaRiS", -1., -2.));
+		return update(new City(10L,"PaRiS", -1.3, -2.));
 	}
 	
 	public City update(City city) {
@@ -97,14 +107,27 @@ public class DemoJPA implements AutoCloseable {
 	    return city;
 	}
 
+	public Monument updateMonument() {
+		return update(new Monument(13L, "Tour Eiffel", new City(10L,"PaRiS", -1.3, -2.)));
+	}
+	
+	public Monument update(Monument monu) {
+	    EntityManager em= factory.createEntityManager();
+	    em.getTransaction().begin();
+	    monu = em.merge(monu);
+	    em.getTransaction().commit();
+	    em.close();
+	    return monu;
+	}
+	
 	public void deleteCity() {
 		City cityTmp= createCity();
 		System.out.println(cityTmp);
-		delete(cityTmp);
-		delete(11L);
+		deleteCityByObject(cityTmp);
+		deleteCityById(11L);
 	}
 
-	public void delete(City city) {
+	public void deleteCityByObject(City city) {
 		EntityManager em= factory.createEntityManager();
 	    em.getTransaction().begin();
 	    em.remove(em.merge(city));
@@ -112,7 +135,7 @@ public class DemoJPA implements AutoCloseable {
 	    em.close();
 	}
 	
-	public void delete(Long id) {
+	public void deleteCityById(Long id) {
 		EntityManager em= factory.createEntityManager();
 	    em.getTransaction().begin();
 	    em.remove(em.find(City.class, id));
@@ -120,6 +143,18 @@ public class DemoJPA implements AutoCloseable {
 	    em.close();
 	}
 
+	public void deleteMonument() {
+		deleteMonumentById(8L);
+	}
+	
+	public void deleteMonumentById(Long id) {
+		EntityManager em= factory.createEntityManager();
+	    em.getTransaction().begin();
+	    em.remove(em.find(Monument.class, id));
+	    em.getTransaction().commit();
+	    em.close();
+	}	
+	
 	public void close() throws Exception {
 		// TODO Auto-generated method stub
 		factory.close();
@@ -128,15 +163,17 @@ public class DemoJPA implements AutoCloseable {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub		
 		try (DemoJPA demoJpa = new DemoJPA()) {
-			City city1= demoJpa.createCity();
-			System.out.println(city1);
+			//City city1= demoJpa.createCity();
+			//System.out.println(city1);
 			//demoJpa.createCityAndUpdate();
 			//System.out.println(demoJpa.readCity());
 			//System.out.println(demoJpa.updateCity());
 			//demoJpa.deleteCity();
+			//System.out.println(demoJpa.readCity());
 			
-			Monument monument1= demoJpa.createMonument();
-			System.out.println(monument1);
+			//Monument monument1= demoJpa.createMonument();
+			//System.out.println(monument1);
+			demoJpa.deleteMonument();;
 			
 		} catch (Exception e) {
 			System.out.println("Y a un problème!!! " + e);

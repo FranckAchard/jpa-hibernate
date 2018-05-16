@@ -25,8 +25,8 @@ public class City {
 	@Column(name="LONGITUDE", nullable=false)
 	private Double longitude;
 	
-	//@OneToMany(mappedBy = "fk_city")
-    @Transient
+	@OneToMany(mappedBy = "city")
+    //@Transient
 	private List<Monument> monuments = new ArrayList<Monument>();
 
 	public City() {

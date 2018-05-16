@@ -16,10 +16,9 @@ public class Monument {
 	@Column(name="NAME", nullable=false, length=255)
     private String name;
 	
-	/*
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "fk_city")*/
-    @Transient
+	@JoinColumn(name = "fk_city")
+    //@Transient
 	private City city;
 
 	public Monument() {
