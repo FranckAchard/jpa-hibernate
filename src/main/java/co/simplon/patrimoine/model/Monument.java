@@ -16,12 +16,18 @@ public class Monument {
 	@Column(name="NAME", nullable=false, length=255)
     private String name;
 	
+	/*
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "fk_city")
-    private City city;
+	@JoinColumn(name = "fk_city")*/
+    @Transient
+	private City city;
 
 	public Monument() {
 		// TODO Auto-generated constructor stub
+	}
+
+	public Monument(String name) {
+		this(null, name, null);
 	}
 
 	public Monument(String name, City city) {
@@ -29,6 +35,7 @@ public class Monument {
 	}
 	
 	public Monument(Long id, String name, City city) {
+		super();
 		this.id = id;
 		this.name = name;
 		this.city = city;

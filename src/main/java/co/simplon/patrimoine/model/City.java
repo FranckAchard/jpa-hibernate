@@ -25,21 +25,43 @@ public class City {
 	@Column(name="LONGITUDE", nullable=false)
 	private Double longitude;
 	
-	@OneToMany(mappedBy = "fk_city")	
+	//@OneToMany(mappedBy = "fk_city")
+    @Transient
 	private List<Monument> monuments = new ArrayList<Monument>();
 
 	public City() {
 	}
 	
+	public City(Long id, String name, Double latitude, Double longitude, List<Monument> monuments) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.monuments = monuments;
+	}
+
+	public City(String name, Double latitude, Double longitude, List<Monument> monuments) {
+		super();
+		this.name = name;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.monuments = monuments;
+	}
+
+	public City(Long id, String name, Double latitude, Double longitude) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
+	
 	public City(String name, double latitude, double longitude) {
-		this(null, name, latitude, longitude);
+		this(null, name, latitude, longitude, null);
+		//this(null, name, latitude, longitude);
 	}
-	public City(Long id, String name, double latitude, double longitude) {
-		this.id= id;
-		this.name= name;
-		this.latitude= latitude;
-		this.longitude= longitude;
-	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -82,8 +104,8 @@ public class City {
 
 	@Override
 	public String toString() {
-		return "City [id=" + id + ", name=" + name + ", latitude=" + latitude + ", longitude=" + longitude
-				+ ", monuments=" + monuments + "]";
+		return "City [id=" + id + ", name=" + name + ", latitude=" + latitude + ", longitude=" + longitude + ", monuments=" + monuments + "]";
+		//return "City [id=" + id + ", name=" + name + ", latitude=" + latitude + ", longitude=" + longitude + "]";
 	}
 
 }

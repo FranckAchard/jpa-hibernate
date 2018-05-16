@@ -57,7 +57,8 @@ public class DemoJPA implements AutoCloseable {
 	
 	public Monument createMonument() {
 		EntityManager em= factory.createEntityManager();
-		Monument monument= new Monument("Pont romain", em.find(City.class, 1L));
+		//Monument monument= new Monument("Pont romain", em.find(City.class, 1L));
+		Monument monument= new Monument("Pont romain");
 		monument= create(em, monument);
 		em.close();
 		return monument;
@@ -83,7 +84,8 @@ public class DemoJPA implements AutoCloseable {
 	}
 	
 	public City updateCity() {
-	    return update(new City(4L,"PaRiS", -1., -2.));
+	    //return update(new City(4L,"PaRiS", -1., -2., null));
+		return update(new City(4L,"PaRiS", -1., -2.));
 	}
 	
 	public City update(City city) {
@@ -126,8 +128,8 @@ public class DemoJPA implements AutoCloseable {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub		
 		try (DemoJPA demoJpa = new DemoJPA()) {
-			//City city1= demoJpa.createCity();
-			//System.out.println(city1);
+			City city1= demoJpa.createCity();
+			System.out.println(city1);
 			//demoJpa.createCityAndUpdate();
 			//System.out.println(demoJpa.readCity());
 			//System.out.println(demoJpa.updateCity());
@@ -137,7 +139,7 @@ public class DemoJPA implements AutoCloseable {
 			System.out.println(monument1);
 			
 		} catch (Exception e) {
-			
+			System.out.println("Y a un problème!!! " + e);
 		}
 	}
 
