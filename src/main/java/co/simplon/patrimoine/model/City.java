@@ -3,7 +3,16 @@ package co.simplon.patrimoine.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
 
 @Entity
 @Table(name="CITIES")
@@ -25,7 +34,7 @@ public class City {
 	@Column(name="LONGITUDE", nullable=false)
 	private Double longitude;
 	
-	@OneToMany(mappedBy = "city")
+	@OneToMany(mappedBy = "city", fetch= FetchType.EAGER)
     //@Transient
 	private List<Monument> monuments = new ArrayList<Monument>();
 
@@ -104,7 +113,7 @@ public class City {
 
 	@Override
 	public String toString() {
-		return "City [id=" + id + ", name=" + name + ", latitude=" + latitude + ", longitude=" + longitude + ", monuments=" + monuments + "]";
+		return "City [id=" + id + ", name=" + name + ", latitude=" + latitude + ", longitude=" + longitude + ", nombre monuments=" + monuments.size() + "]";
 		//return "City [id=" + id + ", name=" + name + ", latitude=" + latitude + ", longitude=" + longitude + "]";
 	}
 

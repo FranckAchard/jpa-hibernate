@@ -1,6 +1,8 @@
 package co.simplon.patrimoine.model;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -10,6 +12,7 @@ public class DemoJPA implements AutoCloseable {
 	private static final String PERSISTENCE_UNIT_NAME = "demo-jpa-1";
 	private EntityManagerFactory factory;
 
+	// constructor, to set EntityManagerFactory
 	public DemoJPA() {
 		Map<String, String> env = System.getenv();
 		Map<String, Object> configOverrides = new HashMap<String, Object>();
@@ -27,6 +30,7 @@ public class DemoJPA implements AutoCloseable {
 		factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, configOverrides);
 	}
 	
+	// create city
 	public City createCity() {
 		EntityManager em= factory.createEntityManager();
 		City city= new City("Atlantis", 0, 0.5);
@@ -55,6 +59,7 @@ public class DemoJPA implements AutoCloseable {
 		  return city;
 	}
 	
+	// create monument
 	public Monument createMonument() {
 		EntityManager em= factory.createEntityManager();
 		City city1= em.find(City.class, 5L);
@@ -70,22 +75,55 @@ public class DemoJPA implements AutoCloseable {
 		em.getTransaction().commit();
 		return monument;
 	}
-
 	
+	// create user
+	public User createUser() {
+		EntityManager em= factory.createEntityManager();
+		/* user:
+		 * - id
+		 * - name
+		 * - hashset of monuments
+		 */
+		// set user
+		
+		City city1= new City("Vers-Pont-du-Gard", 43.9473, 4.5355);
+		create(em, city1);
+		
+		City city2= new City("Groix", 47.63769, -3.46300);
+		create(em, city2);
+		
+		Set<Monument> monuSet= new HashSet<Monument>();
+		
+		Monument monu1= new Monument("Pont du Gard", city1);
+		monuSet.add(monu1);
+		create(em, monu1);
+		
+		Monument monu2= new Monument("Fort", city2);
+		monuSet.add(monu2);
+		create(em, monu2);	
+		
+		User user= new User("Ahmed", monuSet);
+		user= create(em, user);
+		em.close();
+		return user;
+	}
+	
+	public User create(EntityManager em, User user) {
+		em.getTransaction().begin();
+		em.persist(user);
+		em.getTransaction().commit();
+		return user;
+	}
+	
+	// read city
 	public City readCity() {
 	    EntityManager em= factory.createEntityManager();
-	    //City city= read(em, 5L);
 	    City city= em.find(City.class, 5L);
 	    em.close();
 	    return city;
 	}
 	
-	/*
-	public City read(EntityManager em, Long id) {
-	    return em.find(City.class, id);
-	}
-	*/
-	
+	// read monument
 	public Monument readMonument() {
 	    EntityManager em= factory.createEntityManager();
 	    Monument monument= em.find(Monument.class, 5L);
@@ -93,6 +131,7 @@ public class DemoJPA implements AutoCloseable {
 	    return monument;
 	}	
 	
+	// update city
 	public City updateCity() {
 	    //return update(new City(4L,"PaRiS", -1., -2., null));
 		return update(new City(10L,"PaRiS", -1.3, -2.));
@@ -107,6 +146,7 @@ public class DemoJPA implements AutoCloseable {
 	    return city;
 	}
 
+	// update monument
 	public Monument updateMonument() {
 		return update(new Monument(13L, "Tour Eiffel", new City(10L,"PaRiS", -1.3, -2.)));
 	}
@@ -120,6 +160,7 @@ public class DemoJPA implements AutoCloseable {
 	    return monu;
 	}
 	
+	// delete city
 	public void deleteCity() {
 		City cityTmp= createCity();
 		System.out.println(cityTmp);
@@ -143,6 +184,7 @@ public class DemoJPA implements AutoCloseable {
 	    em.close();
 	}
 
+	// delete monument
 	public void deleteMonument() {
 		deleteMonumentById(8L);
 	}
@@ -155,11 +197,15 @@ public class DemoJPA implements AutoCloseable {
 	    em.close();
 	}	
 	
+	// close factory
 	public void close() throws Exception {
 		// TODO Auto-generated method stub
 		factory.close();
 	}
 
+	/******************************************************
+	 ********************    main    **********************
+	 ******************************************************/
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub		
 		try (DemoJPA demoJpa = new DemoJPA()) {
@@ -169,14 +215,16 @@ public class DemoJPA implements AutoCloseable {
 			//System.out.println(demoJpa.readCity());
 			//System.out.println(demoJpa.updateCity());
 			//demoJpa.deleteCity();
-			//System.out.println(demoJpa.readCity());
+			System.out.println(demoJpa.readCity());
 			
 			//Monument monument1= demoJpa.createMonument();
 			//System.out.println(monument1);
-			demoJpa.deleteMonument();;
+			//demoJpa.deleteMonument();
+			//demoJpa.createUser();
 			
 		} catch (Exception e) {
 			System.out.println("Y a un problème!!! " + e);
+			e.printStackTrace();
 		}
 	}
 
