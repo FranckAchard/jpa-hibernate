@@ -14,7 +14,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name="MONUMENTS")
@@ -42,19 +41,24 @@ public class Monument {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Monument(String name) {
-		this(null, name, null);
-	}
-
-	public Monument(String name, City city) {
-		this(null, name, city);
-	}
-	
-	public Monument(Long id, String name, City city) {
+	public Monument(Long id, String name, City city, Set<User> users) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.city = city;
+		this.users = users;
+	}
+
+	public Monument(String name) {
+		this(null, name, null, null);
+	}
+
+	public Monument(String name, City city) {
+		this(null, name, city, null);
+	}
+	
+	public Monument(String name, City city, Set<User> users) {
+		this(null, name, city, users);
 	}
 
 	public Long getId() {
@@ -80,10 +84,18 @@ public class Monument {
 	public void setCity(City city) {
 		this.city = city;
 	}
+	
+	public Set<User> getUsers() {
+		return users;
+	}
 
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
+	
 	@Override
 	public String toString() {
-		return "Monument [id=" + id + ", name=" + name + ", city=" + city + "]";
+		return "Monument [id=" + id + ", name=" + name + ", city=" + city + ", nb users=" + users.size() + "]";
 	}
 
 }

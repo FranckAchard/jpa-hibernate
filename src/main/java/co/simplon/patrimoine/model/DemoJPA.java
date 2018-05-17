@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 public class DemoJPA implements AutoCloseable {
 	private static final String PERSISTENCE_UNIT_NAME = "demo-jpa-1";
@@ -84,8 +85,7 @@ public class DemoJPA implements AutoCloseable {
 		 * - name
 		 * - hashset of monuments
 		 */
-		// set user
-		
+
 		City city1= new City("Vers-Pont-du-Gard", 43.9473, 4.5355);
 		create(em, city1);
 		
@@ -148,7 +148,7 @@ public class DemoJPA implements AutoCloseable {
 
 	// update monument
 	public Monument updateMonument() {
-		return update(new Monument(13L, "Tour Eiffel", new City(10L,"PaRiS", -1.3, -2.)));
+		return update(new Monument(13L, "Tour Eiffel", new City(10L,"PaRiS", -1.3, -2.), null));
 	}
 	
 	public Monument update(Monument monu) {
@@ -197,6 +197,18 @@ public class DemoJPA implements AutoCloseable {
 	    em.close();
 	}	
 	
+	public void testJPQL() {
+		EntityManager em= factory.createEntityManager();
+		//String queryString= "SELECT c FROM City AS c WHERE c.name=:nameParam";
+		String queryString= "SELECT c FROM City AS c WHERE c.name LIKE '%r%'";
+		TypedQuery<City> query = em.createQuery(queryString, City.class);
+		//query.setParameter("nameParam", "PaRiS");
+		for (City c : query.getResultList()) {
+			System.out.println(c);
+		}
+	    em.close();
+	}
+	
 	// close factory
 	public void close() throws Exception {
 		// TODO Auto-generated method stub
@@ -215,12 +227,14 @@ public class DemoJPA implements AutoCloseable {
 			//System.out.println(demoJpa.readCity());
 			//System.out.println(demoJpa.updateCity());
 			//demoJpa.deleteCity();
-			System.out.println(demoJpa.readCity());
+			//System.out.println(demoJpa.readCity());
 			
 			//Monument monument1= demoJpa.createMonument();
 			//System.out.println(monument1);
 			//demoJpa.deleteMonument();
 			//demoJpa.createUser();
+			
+			demoJpa.testJPQL();
 			
 		} catch (Exception e) {
 			System.out.println("Y a un problème!!! " + e);

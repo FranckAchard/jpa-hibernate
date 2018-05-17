@@ -77,6 +77,14 @@ public class User {
 	public void setMonuments(Set<Monument> monuments) {
 		this.monuments = monuments;
 	}
+	
+	// method for adding a Monument to monuments attribute
+	public void addMonument(Monument monu) {
+		// add a monument to monuments set
+		monuments.add(monu);
+		// add user to set of users of monument parameter
+		monu.getUsers().add(this);
+	}
 
 	@Override
 	public String toString() {
