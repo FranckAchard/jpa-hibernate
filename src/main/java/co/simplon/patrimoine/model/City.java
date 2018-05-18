@@ -67,8 +67,7 @@ public class City {
 	}
 	
 	public City(String name, double latitude, double longitude) {
-		this(null, name, latitude, longitude, null);
-		//this(null, name, latitude, longitude);
+		this(null, name, latitude, longitude);
 	}
 	
 	public Long getId() {

@@ -1,4 +1,4 @@
-package co.simplon.patrimoine.model;
+package co.simplon.patrimoine.app;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -8,6 +8,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
+
+import co.simplon.patrimoine.model.City;
+import co.simplon.patrimoine.model.Monument;
+import co.simplon.patrimoine.model.User;
 
 public class DemoJPA implements AutoCloseable {
 	private static final String PERSISTENCE_UNIT_NAME = "demo-jpa-1";
